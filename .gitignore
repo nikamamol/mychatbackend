@@ -1,0 +1,30 @@
+# Node modules
+/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+
+# Build output
+/dist
+/build
+
+# Dependency directories
+/package-lock.json
+/yarn.lock
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE settings (for example, VS Code)
+.vscode/
+
+# Coverage directory (for testing)
+/coverage/
+
+# Other files you may want to exclude
+*.env

@@ -77,37 +77,37 @@ app.post('/login', async(req, res) => {
 
 // Socket.IO Logic
 // Socket.IO Logic (from your earlier backend code)
-io.on('connection', async(socket) => {
+io.on('connection', (socket) => {
     console.log('User connected:', socket.id);
 
-    socket.on('setUsername', (username) => {
+    socket.on('setUsername', async(username) => {
         socket.username = username;
         console.log(`Username set for ${socket.id}: ${username}`);
-    });
 
-    try {
-        const messages = await Message.find().sort({ timestamp: 1 });
-        socket.emit('loadMessages', messages.map(msg => ({
-            content: msg.content,
-            username: msg.username,
-            timestamp: msg.timestamp.toISOString() // Ensure timestamp is an ISO string
-        })));
-    } catch (err) {
-        console.error('Error loading messages:', err);
-    }
+        try {
+            const messages = await Message.find().sort({ timestamp: 1 });
+            socket.emit('loadMessages', messages.map(msg => ({
+                content: msg.content,
+                username: msg.username,
+                timestamp: msg.timestamp.toISOString()
+            })));
+        } catch (err) {
+            console.error('Error loading messages:', err);
+        }
+    });
 
     socket.on('sendMessage', async(message) => {
         try {
             const newMessage = new Message({
                 content: message,
                 username: socket.username || 'Anonymous',
-                timestamp: new Date() // Set current time
+                timestamp: new Date()
             });
             await newMessage.save();
             io.emit('message', {
                 content: message,
                 username: socket.username || 'Anonymous',
-                timestamp: newMessage.timestamp.toISOString() // Send ISO string
+                timestamp: newMessage.timestamp.toISOString()
             });
         } catch (err) {
             console.error('Error saving message:', err);

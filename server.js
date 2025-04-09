@@ -13,9 +13,7 @@ require('dotenv').config();
 app.use(express.json());
 app.use(cors({ origin: '*' }));
 
-// const mongoUri = "mongodb+srv://moreshital694:ocj0OSoXKXiRzRgP@cluster0.4aogt8i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-const mongoUri = process.env.MONGO_URI;
-// MongoDB Client Setup
+const mongoUri = "mongodb+srv://moreshital694:ocj0OSoXKXiRzRgP@cluster0.4aogt8i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const client = new MongoClient(mongoUri, {
     serverApi: {
         version: ServerApiVersion.v1,

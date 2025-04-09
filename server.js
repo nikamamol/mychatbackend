@@ -11,7 +11,7 @@ const io = new Server(server, { cors: { origin: '*' } });
 
 // Middleware
 app.use(express.json());
-app.use(cors({ origin: 'https://privatechat-psi.vercel.app/' }));
+app.use(cors({ origin: '*' }));
 
 const mongoUri = "mongodb+srv://moreshital694:ocj0OSoXKXiRzRgP@cluster0.4aogt8i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 

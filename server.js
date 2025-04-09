@@ -4,45 +4,19 @@ const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: '*' } });
-require('dotenv').config();
+
 // Middleware
 app.use(express.json());
 app.use(cors({ origin: '*' }));
 
-const mongoUri = "mongodb+srv://moreshital694:ocj0OSoXKXiRzRgP@cluster0.4aogt8i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-const client = new MongoClient(mongoUri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    }
-});
+mongoose.connect('mongodb+srv://moreshital694:ocj0OSoXKXiRzRgP@cluster0.4aogt8i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {})
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.error('MongoDB connection error:', err));
 
-// MongoDB connection using Mongoose
-mongoose.connect(mongoUri, {})
-    .then(() => console.log('MongoDB connected via Mongoose'))
-    .catch(err => console.error('MongoDB connection error via Mongoose:', err));
-
-// Test MongoDB connection with MongoClient
-async function testMongoConnection() {
-    try {
-        await client.connect();
-        // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
-    } catch (err) {
-        console.error("MongoDB connection failed:", err);
-    } finally {
-        await client.close();
-    }
-}
-
-// Test the connection when the server starts
-testMongoConnection();
 // User Schema
 const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true },
